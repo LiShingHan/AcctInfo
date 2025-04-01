@@ -26,17 +26,28 @@
     const ctx = document.getElementById('myChart').getContext('2d');
     let chart;
 
+    const colorPool = [
+      'rgba(255, 99, 132, 0.6)',
+      'rgba(54, 162, 235, 0.6)',
+      'rgba(255, 206, 86, 0.6)',
+      'rgba(75, 192, 192, 0.6)',
+      'rgba(153, 102, 255, 0.6)',
+      'rgba(255, 159, 64, 0.6)'
+    ];
+
     const dataSets = {
       exam: {
         labels: [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],
         datasets: [
           {
             label: '報名人數',
-            data: [6528,6769,7551,8112,8679,8742,8501,8376,8012,7979,7907,7895,7552,7218,7446,6978,7033,7003,6891]
+            data: [6528,6769,7551,8112,8679,8742,8501,8376,8012,7979,7907,7895,7552,7218,7446,6978,7033,7003,6891],
+            backgroundColor: colorPool[0]
           },
           {
             label: '及格人數',
-            data: [460,456,590,591,627,631,555,495,451,452,533,422,432,328,373,300,365,518,592]
+            data: [460,456,590,591,627,631,555,495,451,452,533,422,432,328,373,300,365,518,592],
+            backgroundColor: colorPool[1]
           }
         ]
       },
@@ -45,68 +56,86 @@
         datasets: [
           {
             label: '核准簽證公司發行公司者',
-            data: [745,745,732,711,703,676,699,709,692]
+            data: [745,745,732,711,703,676,699,709,692],
+            backgroundColor: colorPool[0]
           },
           {
             label: '執業會計師',
-            data: [3704,3758,3396,3471,3548,3651,3754,3883,4004]
+            data: [3704,3758,3396,3471,3548,3651,3754,3883,4004],
+            backgroundColor: colorPool[1]
           },
           {
             label: '未執業者',
-            data: [3256,3420,4036,4154,4315,4458,4581,4669,4795]
+            data: [3256,3420,4036,4154,4315,4458,4581,4669,4795],
+            backgroundColor: colorPool[2]
           }
         ]
       },
       firm: {
         labels: [2015,2016,2017,2018,2019,2020,2021,2022,2023],
         datasets: [
-          { label: '個人事務所', data: [1524,1560,1515,1543,1578,1638,1683,1717,1750] },
-          { label: '聯合事務所', data: [405,427,411,431,437,436,449,469,493] },
-          { label: '合署事務所', data: [51,47,46,35,33,37,37,39,40] },
-          { label: '法人事務所', data: [0,0,0,0,0,1,1,1,1] }
+          { label: '個人事務所', data: [1524,1560,1515,1543,1578,1638,1683,1717,1750], backgroundColor: colorPool[0] },
+          { label: '聯合事務所', data: [405,427,411,431,437,436,449,469,493], backgroundColor: colorPool[1] },
+          { label: '合署事務所', data: [51,47,46,35,33,37,37,39,40], backgroundColor: colorPool[2] },
+          { label: '法人事務所', data: [0,0,0,0,0,1,1,1,1], backgroundColor: colorPool[3] }
         ]
       },
       student: {
         labels: [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],
         datasets: [
-          { label: '學士班(日間)', data: [17249,17143,16971,16791,16325,15727,15387,15068,14806,14538,13820,12956] },
-          { label: '學士班(進修)', data: [2213,1898,1594,1492,1266,1185,1094,995,991,927,787,711] },
-          { label: '五專', data: [1135,1095,1068,1009,995,976,969,929,896,884,896,865] },
-          { label: '碩士班(日間)', data: [1191,1215,1326,1280,1297,1280,1241,1254,1249,1252,1270,1217] },
-          { label: '碩士在職專班', data: [776,789,758,632,678,585,575,565,606,593,574,542] },
-          { label: '博士班', data: [121,108,115,87,94,89,76,74,77,75,70,63] }
+          { label: '學士班(日間)', data: [17249,17143,16971,16791,16325,15727,15387,15068,14806,14538,13820,12956], backgroundColor: colorPool[0] },
+          { label: '學士班(進修)', data: [2213,1898,1594,1492,1266,1185,1094,995,991,927,787,711], backgroundColor: colorPool[1] },
+          { label: '五專', data: [1135,1095,1068,1009,995,976,969,929,896,884,896,865], backgroundColor: colorPool[2] },
+          { label: '碩士班(日間)', data: [1191,1215,1326,1280,1297,1280,1241,1254,1249,1252,1270,1217], backgroundColor: colorPool[3] },
+          { label: '碩士在職專班', data: [776,789,758,632,678,585,575,565,606,593,574,542], backgroundColor: colorPool[4] },
+          { label: '博士班', data: [121,108,115,87,94,89,76,74,77,75,70,63], backgroundColor: colorPool[5] }
         ]
       }
     };
 
-    function showChart(type) {
-      const config = {
-        type: 'bar',
-        data: {
-          labels: dataSets[type].labels,
-          datasets: dataSets[type].datasets.map(set => ({
-            ...set,
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }))
-        },
-        options: {
-          responsive: true,
-          indexAxis: 'y',
-          plugins: {
-            legend: { position: 'top' },
-            title: { display: true, text: type }
-          },
-          scales: {
-            x: { beginAtZero: true }
-          }
-        }
-      };
+function showChart(type) {
+  if (chart) chart.destroy();
 
-      if (chart) chart.destroy();
-      chart = new Chart(ctx, config);
+  // 判斷是否需要顯示為堆疊圖（stacked bar）
+  const isStacked = (type === 'firm' || type === 'student');
+
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: dataSets[type].labels,
+      datasets: dataSets[type].datasets
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' },
+        title: { display: true, text: getTitle(type) }
+      },
+      scales: {
+        x: {
+          stacked: isStacked, // 水平軸是否堆疊
+          title: { display: true, text: '年度' }
+        },
+        y: {
+          beginAtZero: true,
+          stacked: isStacked, // 垂直軸是否堆疊
+          title: { display: true, text: '人數' }
+        }
+      }
     }
+  });
+}
+
+// 顯示中文圖表標題
+function getTitle(type) {
+  switch(type) {
+    case 'exam': return '會計師考試人數';
+    case 'cert': return '會計師資格人數';
+    case 'firm': return '會計師事務所家數';
+    case 'student': return '會計系在學學生數';
+    default: return '';
+  }
+}
 
     showChart('exam'); // 預設顯示第一頁
   </script>
